@@ -4,15 +4,18 @@ using System.Collections;
 [System.Serializable]
 public class Boundary
 {
-    public float xMin, xMax, zMin, zMax;
+    public float xMin = -6f;
+	public float xMax = 6f;
+	public float zMin = -4f;
+	public float zMax = 8f;
 }
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour {
 
     Rigidbody rb;
-    public float speed;
-    public float tilt;
+    public float speed = 4.5f;
+    public float tilt = 3f;
     public Boundary boundary;
 
     void Awake()

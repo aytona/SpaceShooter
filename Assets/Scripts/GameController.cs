@@ -10,9 +10,17 @@ public class GameController : MonoBehaviour {
     public float startWait;
     public float waveWait;
 
+    private GameObject player;
+
     void Start()
     {
         StartCoroutine (SpawnWaves());
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    void OnLevelWasLoaded()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     IEnumerator SpawnWaves()
@@ -28,6 +36,11 @@ public class GameController : MonoBehaviour {
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
+
+            if (player == null)
+            {
+                break;
+            }
         }
     }
 }

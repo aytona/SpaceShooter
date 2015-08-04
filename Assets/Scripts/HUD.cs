@@ -4,14 +4,24 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour {
 
-    public Text score = null;
-    public Text highScore = null;
+    public Text scoreText = null;
+    public Text highScoreText = null;
+    public Text restartText = null;
+    public Text gameOverText = null;
+
+    private bool gameOver;
 
     private static HUD instance = null;
+    private GameObject player;
 
     // Make sure there is only one of this object in-game
     void Awake()
     {
+        gameOver = false;
+        restartText.text = "";
+        gameOverText.text = "";
+        player = GameObject.FindGameObjectWithTag("Player");
+
         if (instance == null)
         {
             GameObject.DontDestroyOnLoad(this.gameObject);
@@ -23,9 +33,37 @@ public class HUD : MonoBehaviour {
         }
     }
 
+    void OnLevelWasLoaded()
+    {
+        gameOver = false;
+        restartText.text = "";
+        gameOverText.text = "";
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     void Update()
     {
-        this.score.text = "Score: " + PlayerData.Instance.Score.ToString();
-        this.highScore.text = "HighScore: " + PlayerData.Instance.HighScore.ToString();
+        this.scoreText.text = "Score: " + PlayerData.Instance.Score.ToString();
+        this.highScoreText.text = "HighScore: " + PlayerData.Instance.HighScore.ToString();
+
+        if (player == null)
+        {
+            GameOver();
+        }
+
+        if (gameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Application.LoadLevelAsync(Application.loadedLevel);
+            }
+        }
+    }
+
+    void GameOver()
+    {
+        gameOverText.text = "GAME OVER!";
+        restartText.text = "Press 'R' to Restart";
+        gameOver = true;
     }
 }

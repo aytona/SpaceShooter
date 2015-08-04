@@ -17,6 +17,10 @@ public class DestroyContact : MonoBehaviour {
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
         }
+        if (other.tag != "Player")
+        {
+            PlayerData.Instance.Score += 100;
+        }
         Destroy(other.gameObject);
         Destroy(gameObject);
     }
